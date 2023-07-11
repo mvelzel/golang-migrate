@@ -11,8 +11,8 @@ import (
 	"time"
 
 	"github.com/cenkalti/backoff/v4"
-	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database"
+	"github.com/mvelzel/golang-migrate/v4"
+	"github.com/mvelzel/golang-migrate/v4/database"
 	"github.com/hashicorp/go-multierror"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgerrcode"
@@ -278,7 +278,7 @@ func (c *YugabyteDB) SetVersion(version int, dirty bool) error {
 
 		// Also re-write the schema version for nil dirty versions to prevent
 		// empty schema version for failed down migration on the first migration
-		// See: https://github.com/golang-migrate/migrate/issues/330
+		// See: https://github.com/mvelzel/golang-migrate/issues/330
 		if version >= 0 || (version == database.NilVersion && dirty) {
 			if _, err := tx.Exec(`INSERT INTO "`+c.config.MigrationsTable+`" (version, dirty) VALUES ($1, $2)`, version, dirty); err != nil {
 				return err
