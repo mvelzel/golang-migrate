@@ -15,6 +15,7 @@ import (
 	"github.com/mvelzel/golang-migrate/v4"
 	"github.com/mvelzel/golang-migrate/v4/database"
 	"github.com/hashicorp/go-multierror"
+	"github.com/microsoft/go-mssqldb/azuread"
 	mssql "github.com/microsoft/go-mssqldb" // mssql support
 )
 
@@ -160,7 +161,7 @@ func (ss *SQLServer) Open(url string) (database.Driver, error) {
 		db = sql.OpenDB(connector)
 
 	} else {
-		db, err = sql.Open("sqlserver", filteredURL)
+		db, err = sql.Open(azuread.DriverName, filteredURL)
 		if err != nil {
 			return nil, err
 		}
